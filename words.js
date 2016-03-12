@@ -16,11 +16,11 @@ $(document).ready(function() {
 		var listR = '';
 		var languageString;
 		event.preventDefault();
-		languageString = $(html.val()).find('.ill-kyoto').text();
-		if (languageString.indexOf('French') > -1) {
+		languageString = $(html.val()).find('.logoLnk img').attr('src');
+		if (languageString.indexOf('french') > -1) {
 			MASCULINE = 'un';
 			FEMENINE = 'une';
-		} else if (languageString.indexOf('Portuguese') > -1) {
+		} else if (languageString.indexOf('portuguese') > -1) {
 			MASCULINE = 'um';
 			FEMENINE = 'uma';
 		}
