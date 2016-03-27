@@ -1,0 +1,27 @@
+{
+  "folders":
+  [
+    {
+      "folder_exclude_patterns":
+      [
+        "*"
+      ],
+      "file_exclude_patterns":
+      [
+        "*.zip",
+        "*.sublime-project"
+      ],
+      "follow_symlinks": true,
+      "name": "GetWordsPhrases: Project",
+      "path": "."
+    }, {
+      "follow_symlinks": true,
+      "name": "GetWordsPhrases: App",
+      "path": "./app"
+    }, {
+      "follow_symlinks": true,
+      "name": "GetWordsPhrases: HTML",
+      "path": "./html"
+    }
+  ]
+}
