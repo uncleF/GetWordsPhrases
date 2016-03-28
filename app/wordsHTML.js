@@ -2,82 +2,65 @@
 
 'use strict';
 
-var wordsParse = require('./wordsParse');
 var cheerio = require('cheerio');
-var fs = require('fs');
+var parse = require('./parse');
+var frontend = require('./frontend');
 
 function getWordParagraph(element) {
-  return (`<p class="word"><span>${wordsParse.getWord(element)}</span></p>`).replace(/\s{2,}|\s+$/g, '$1');
+  var word = parse.getWord(element);
+  return word ? (`<p class="word"><span>${word}</span></p>`).replace(/\s{2,}|\s+$/g, '') : false;
 }
 
 function getTranslationParagraph(element, languageString) {
-  var translation = wordsParse.getTranslation(element, languageString);
-  return translation ? (`<p class="translation"><span>${translation}</span></p>`).replace(/\s{2,}|\s+$/g, '$1') : '';
+  var translation = parse.getWordTranslation(element, languageString);
+  return translation ? (`<p class="translation"><span>${translation}</span></p>`).replace(/\s{2,}|\s+$/g, '') : false;
 }
 
 function getArticleParagraph(element, masc, fem) {
-  var article = wordsParse.getArticleString(element, masc, fem);
+  var article = parse.getArticleString(element, masc, fem);
   return article ? `<p class="gender"><span>${article}</span></p>` : '';
 }
 
 function getElementHTML(element, part, languageString, masc, fem) {
-  return `<div class="item">
-            <img src="${wordsParse.getImageSrc(element)}">
-            <p class="image"><span>${wordsParse.getDoubleImageURL(element)}</span></p>
-            <p class="mp3"><span>${wordsParse.getAudioURL(element)}</span></p>
-            ${getWordParagraph(element)}
-            ${getArticleParagraph(element, masc, fem)}
-            ${getTranslationParagraph(element, languageString)}
-          </div>`;
-}
-
-function readResource(file) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(`${__dirname}/res/${file}`, (error, data) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-}
-
-function getCSS() {
-  return readResource('styles.css');
-}
-
-function getJS() {
-  return readResource('scripts.js');
-}
-
-function fail(error) {
-  console.error(error);
+  var audio = parse.getAudioURL(element);
+  var word = getWordParagraph(element);
+  if (audio && word) {
+    return `<div class="item">
+              <img src="${parse.getImageSrc(element)}">
+              <p class="image"><span>${parse.getDoubleImageURL(element)}</span></p>
+              <p class="mp3"><span>${audio}</span></p>
+              ${word}
+              ${getArticleParagraph(element, masc, fem)}
+              ${getTranslationParagraph(element, languageString)}
+            </div>`;
+  } else {
+    return '';
+  }
 }
 
 module.exports = (raw) => {
   var $ = cheerio.load(raw);
   var object = $('body');
   return new Promise((resolve, reject) => {
-    var languageString = wordsParse.getLanguageString(object);
-    var articles = wordsParse.getArticles(object, languageString);
+    var languageString = parse.getLanguageString(object);
+    var articles = parse.getArticles(object, languageString);
     var MASCULINE = articles[0];
     var FEMENINE = articles[1];
     var listN = '';
     var listA = '';
     var listV = '';
     var listR = '';
-    var css = getCSS();
-    var js = getJS();
+    var css = frontend.getCSS();
+    var js = frontend.getJS();
     object.find('.ill-wlv__section-d').each(function() {
       var element = $(this);
-      var part = wordsParse.getPart(element);
+      var part = parse.getPart(element);
       var item = getElementHTML(element, part, languageString, MASCULINE, FEMENINE);
-      if (wordsParse.isNoun(part)) {
+      if (parse.isNoun(part)) {
         listN += item;
-      } else if (wordsParse.isAdj(part)) {
+      } else if (parse.isAdj(part)) {
         listA += item;
-      } else if (wordsParse.isVerb(part)) {
+      } else if (parse.isVerb(part)) {
         listV += item;
       } else {
         listR += item;
@@ -97,6 +80,6 @@ module.exports = (raw) => {
                    <script>${resources[1]}</script>
                  </body>`);
       })
-      .catch(fail);
+      .catch(reject);
   });
 };

@@ -51,8 +51,16 @@ function getWord(element) {
   return wordElement.text();
 }
 
-function getTranslation(element, languageString) {
+function getPhrase(element) {
+  return element.find('.ill-wlv__section-b__target').text();
+}
+
+function getWordTranslation(element, languageString) {
   return languageString.indexOf('English') <= -1 ? element.find('.ill-wlv__block-c .ill-wlv__section-b__english').text() : false;
+}
+
+function getPhraseTranslation(element, languageString) {
+  return languageString.indexOf('English') <= -1 ? element.find('.ill-wlv__section-b__english.ill-oita').text() : false;
 }
 
 function getImageSrc(element) {
@@ -75,7 +83,9 @@ exports.isNoun = isNoun;
 exports.isAdj = isAdj;
 exports.isVerb = isVerb;
 exports.getWord = getWord;
-exports.getTranslation = getTranslation;
+exports.getPhrase = getPhrase;
+exports.getWordTranslation = getWordTranslation;
+exports.getPhraseTranslation = getPhraseTranslation;
 exports.getImageSrc = getImageSrc;
 exports.getDoubleImageURL = getDoubleImageURL;
 exports.getAudioURL = getAudioURL;

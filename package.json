@@ -7,11 +7,28 @@
   "dependencies": {
     "cheerio": "^0.20.0",
     "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1",
-    "wget-improved": "^1.3.0"
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {},
   "scripts": {},
-  "author": "uncle.funkay@gmail.com",
-  "license": "ISC"
+  "bin": {
+    "getwp": "app/getwp.js"
+  },
+  "author": "unclef.npm@gmail.com",
+  "license": "ISC",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uncleF/GetWordsPhrases.git"
+  },
+  "keywords": [
+    "comics",
+    "collecting"
+  ],
+  "bugs": {
+    "url": "https://github.com/uncleF/GetWordsPhrases/issues"
+  },
+  "homepage": "https://github.com/uncleF/GetWordsPhrases#readme"
 }
