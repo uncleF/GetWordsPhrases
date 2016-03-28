@@ -12,7 +12,7 @@
   "devDependencies": {},
   "scripts": {},
   "bin": {
-    "getwp": "app/getwp.js --harmony-rest-parameters"
+    "getwp": "app/getwp.js"
   },
   "author": "unclef.npm@gmail.com",
   "license": "ISC",
