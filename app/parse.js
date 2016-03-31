@@ -2,25 +2,35 @@
 
 'use strict';
 
-function getArticles(object, languageString) {
-  if (languageString.indexOf('french') > -1) {
-    return ['un', 'une'];
-  } else if (languageString.indexOf('portuguese') > -1) {
-    return ['um', 'uma'];
-  } else {
-    return ['', ''];
+const LANGUAGES = {
+  french: {
+    masculine: 'un',
+    feminine: 'une'
+  },
+  portuguese: {
+    masculine: 'um',
+    feminine: 'uma'
   }
+};
+
+function getArticles(languageString) {
+  for (let key in LANGUAGES) {
+    if (languageString.indexOf(key) > -1) {
+      return LANGUAGES[key];
+    }
+  }
+  return false;
 }
 
-function getArticleString(element, masc, fem) {
+function getArticleString(element, articles) {
   var gender = element.find('.ill-wlv__section-b__gender').text();
   if (gender === 'masc') {
-    return masc;
-  } else if (gender === 'fem') {
-    return fem;
-  } else {
-    return false;
+    return articles.masculine;
   }
+  if (gender === 'fem') {
+    return articles.feminine;
+  }
+  return false;
 }
 
 function getLanguageString(object) {

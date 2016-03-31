@@ -15,26 +15,21 @@ function dowloadFile(resource, dir) {
       host: urlObject.host,
       path: urlObject.pathname
     };
-    var fileName = path.basename(urlObject.pathname);
-    var file = fs.createWriteStream(`${dir}/${fileName}`);
+    var fileName = path.basename(options.path);
+    var filePath = path.extname(fileName) !== '' ? `${dir}/${fileName}` : `${dir}/${fileName}.html`;
+    var file = fs.createWriteStream(filePath);
     http.get(options, response => {
       response.on('data', function(data) {
         file.write(data);
       }).on('end', function() {
         file.end();
-        resolve();
+        resolve(filePath);
       });
     }).on('error', reject);
   });
 }
 
-function downloadResources(data) {
-  var dir = data.dir;
-  mkdirp(dir);
-  return Promise.all(data.list.map(resource => dowloadFile(resource, dir)));
-}
-
-function getURLs(keys, array) {
+function getURLs(array, keys) {
   var result = [];
   array.forEach(item => {
     if (typeof keys === 'string') {
@@ -46,14 +41,12 @@ function getURLs(keys, array) {
   return result;
 }
 
-function prepareDownloads(keys, dir, arrays) {
-  var list = [];
-  arrays.forEach(array => list = list.concat(array));
-  list = getURLs(keys, list);
-  return new Promise(resolve => resolve({dir: dir, list: list}));
+function dowloadMedia(array, dir, keys) {
+  var list = getURLs(array, keys);
+  var media = `${dir}/media`;
+  mkdirp(media);
+  return list.map(resource => dowloadFile(resource, media));
 }
 
-module.exports = (keys, dir, ...arrays) => {
-  return prepareDownloads(keys, dir, arrays)
-    .then(downloadResources);
-};
+exports.file = dowloadFile;
+exports.media = dowloadMedia;

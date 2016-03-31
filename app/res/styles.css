@@ -3,7 +3,7 @@ body {
 	padding: 20px;
 }
 
-.result {
+.results {
   overflow: hidden;
 	color: #fff;
 	font-family: sans-serif;
@@ -11,23 +11,24 @@ body {
 	line-height: 30px;
 }
 
-.result-csv {
+.results-csv {
 	font-size: 10px;
 }
 
-.resultN, .resultP {
+.results-nouns,
+.results-phrases {
 	background: #4281a4;
 }
 
-.resultA {
+.results-adjectives {
 	background: #ead2ac;
 }
 
-.resultV {
+.results-verbs {
 	background: #fe938c;
 }
 
-.resultR {
+.results-rest {
 	background: #1d3b4c;
 }
 

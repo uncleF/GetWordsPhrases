@@ -24,12 +24,15 @@ function removeDuplicates(array) {
   return array;
 }
 
-function cleanArrays(array) {
+function cleanArray(array) {
   array = sortArray(array);
   array = removeDuplicates(array);
   return array;
 }
 
-module.exports = (...arrays) => {
-  arrays.forEach(item => item = cleanArrays(item));
+module.exports = (array) => {
+  var result = array;
+  return new Promise(resolve => {
+    resolve(cleanArray(result));
+  });
 };

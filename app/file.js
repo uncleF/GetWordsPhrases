@@ -1,5 +1,7 @@
 /* jslint node:true */
 
+'use strict';
+
 var fs = require('fs');
 
 function getRaw(file) {
@@ -27,7 +29,11 @@ function writeFile(data, dir, filename) {
 }
 
 function writeCSV(data, dir, filename) {
-  return data.map((item, index) => writeFile(item.items, dir, `${filename}-${item.name}.csv`));
+  var promises = [];
+  for (let key in data) {
+    promises.push(writeFile(data[key], dir, `${filename}-${key}.csv`));
+  }
+  return promises;
 }
 
 function write(data, html, dir, filename) {

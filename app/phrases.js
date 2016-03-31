@@ -4,42 +4,45 @@
 
 var pharsesHTML = require('./phrasesHTML');
 var pharsesCSV = require('./phrasesCSV');
-var path = require('path');
-var file = require('./file');
+var parse = require('./parse');
+var cheerio = require('cheerio');
+var cleanup = require('./cleanup');
 
-var filePath;
-var fileName;
-var dir;
-var html;
-
-function output(object) {
-  if (html) {
-    return pharsesHTML(object);
-  } else {
-    return pharsesCSV(object, dir);
-  }
+function getAudio(element) {
+  return parse.getAudioURL(element);
 }
 
-function write(data) {
-  file.write(data, html, dir, fileName);
+function getPhrase(element) {
+  return parse.getPhrase(element).replace(/\s{2,}|\s+$/g, '');
 }
 
-function done() {
-  console.log('Done');
+function getTranslation(element, languageString) {
+  return parse.getPhraseTranslation(element, languageString).replace(/\s{2,}|\s+$/g, '');
 }
 
-function fail(error) {
-  console.error(error.stack.split('\n'));
+function getCard(element, languageString) {
+  return {
+    list: 'phrases',
+    audio: getAudio(element),
+    spelling: getPhrase(element),
+    translation: getTranslation(element, languageString)
+  };
 }
 
-module.exports = (options) => {
-  filePath = options.file;
-  fileName = path.basename(filePath, '.html');
-  dir = path.dirname(filePath);
-  html = options.html;
-  file.getRaw(filePath)
-    .then(output)
-    .then(write)
-    .then(done)
-    .catch(fail);
+module.exports = (raw, html, dir) => {
+  var $ = cheerio.load(raw);
+  var object = $('body');
+  var languageString = parse.getLanguageString(object);
+  var list = [];
+  var renderOutput = html ? pharsesHTML : pharsesCSV;
+  object.find('.ill-wlv__block-d, .ill-wlv__block-i').each(function() {
+    var element = $(this);
+    var item = getCard(element, languageString);
+    if (item.audio && item.spelling) {
+      list.push(item);
+    }
+  });
+  return cleanup(list).then(array => {
+    return renderOutput(array, dir);
+  });
 };

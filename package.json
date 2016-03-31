@@ -6,13 +6,16 @@
   "private": true,
   "dependencies": {
     "cheerio": "^0.20.0",
+    "commander": "^2.9.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {},
-  "scripts": {},
+  "scripts": {
+    "demo": "node --harmony-rest-parameters app/getwph.js -s demo/demo.html -H"
+  },
   "bin": {
-    "getwp": "app/getwp.js"
+    "getwph": "app/getwph.js"
   },
   "author": "unclef.npm@gmail.com",
   "license": "ISC",
@@ -24,8 +27,7 @@
     "url": "git+https://github.com/uncleF/GetWordsPhrases.git"
   },
   "keywords": [
-    "comics",
-    "collecting"
+    "languages"
   ],
   "bugs": {
     "url": "https://github.com/uncleF/GetWordsPhrases/issues"

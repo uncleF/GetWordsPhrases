@@ -2,94 +2,42 @@
 
 'use strict';
 
-var parse = require('./parse');
-var cleanup = require('./cleanup');
 var download = require('./download');
-var cheerio = require('cheerio');
 var path = require('path');
 
-function getWordItem(element) {
-  return parse.getWord(element).replace(/\s{2,}|\s+$/g, '');
+function getImage(image) {
+  return `<img src='${path.basename(image.replace('http://cdn.innovativelanguage.com/', ''))}' />`;
 }
 
-function getArticleItem(element, masc, fem) {
-  var article = parse.getArticleString(element, masc, fem);
-  return article || '';
+function getAudio(audio) {
+  return `[sound:${path.basename(audio.replace('http://cdn.innovativelanguage.com/', ''))}]`;
 }
 
-function getImageItem(element) {
-  return parse.getDoubleImageURL(element);
+function getArticle(article) {
+  return article ? `,"${article}"` : '';
 }
 
-function getAudioItem(element) {
-  return parse.getAudioURL(element);
+function getCard(word) {
+  return `"${getImage(word.image)}","${getAudio(word.audio)}","${word.spelling}"${getArticle(word.article)}\n`;
 }
 
-function getElementData(element, part, masc, fem) {
-  if (parse.isNoun(part)) {
-    return {
-      image: getImageItem(element),
-      audio: getAudioItem(element),
-      spelling: getWordItem(element),
-      article: getArticleItem(element, masc, fem)
-    };
-  } else {
-    return {
-      image: getImageItem(element),
-      audio: getAudioItem(element),
-      spelling: getWordItem(element)
-    };
-  }
-}
-
-function generateCSV(array) {
-  var result = '';
-  array.forEach(item => {
-    var image = `<img src='${path.basename(item.image.replace('http://cdn.innovativelanguage.com/', ''))}' />`;
-    var audio = `[sound:${path.basename(item.audio.replace('http://cdn.innovativelanguage.com/', ''))}]`;
-    var article = item.article ? `,"${item.article}"` : '';
-    result += `"${image}","${audio}","${item.spelling}"${article}\n`;
+function getCSV(words) {
+  var lists = {};
+  words.forEach(word => {
+    if (lists[word.list]) {
+      lists[word.list] += getCard(word);
+    } else {
+      lists[word.list] = getCard(word);
+    }
   });
-  return result;
+  return lists;
 }
 
-function prepareCSV(names, ...arrays) {
-  var result = [];
-  arrays.forEach((array, index) => result.push({name: names[index], items: generateCSV(array)}));
-  return result;
-}
-
-module.exports = (raw, dir) => {
-  var $ = cheerio.load(raw);
-  var object = $('body');
-  var media = `${dir}/media/`;
-  return new Promise((resolve, reject) => {
-    var languageString = parse.getLanguageString(object);
-    var articles = parse.getArticles(object, languageString);
-    var MASCULINE = articles[0];
-    var FEMENINE = articles[1];
-    var listN = [];
-    var listA = [];
-    var listV = [];
-    var listR = [];
-    var csv;
-    object.find('.ill-wlv__section-d').each(function() {
-      var element = $(this);
-      var part = parse.getPart(element);
-      var item = getElementData(element, part, MASCULINE, FEMENINE);
-      if (parse.isNoun(part)) {
-        listN.push(item);
-      } else if (parse.isAdj(part)) {
-        listA.push(item);
-      } else if (parse.isVerb(part)) {
-        listV.push(item);
-      } else {
-        listR.push(item);
-      }
+module.exports = (words, dir) => {
+  var downloadKeys = ['image', 'audio'];
+  return Promise
+    .all(download.media(words, dir, downloadKeys))
+    .then(_ => {
+      return getCSV(words);
     });
-    cleanup(listN, listA, listV, listR);
-    csv = prepareCSV(['nouns', 'adjectives', 'verbs', 'rest'], listN, listA, listV, listR);
-    download(['image', 'audio'], media, listN, listA, listV, listR)
-      .then(_ => resolve(csv));
-  });
 };
