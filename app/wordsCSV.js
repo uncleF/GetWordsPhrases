@@ -18,7 +18,7 @@ function getArticle(article) {
 }
 
 function getCard(word) {
-  return `"${getImage(word.image)}","${getAudio(word.audio)}","${word.spelling}"${getArticle(word.article)}\n`;
+  return `"${word.spelling}","${getImage(word.image)}","${getAudio(word.audio)}"${getArticle(word.article)}\n`;
 }
 
 function getCSV(words) {

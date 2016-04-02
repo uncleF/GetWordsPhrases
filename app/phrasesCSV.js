@@ -14,7 +14,7 @@ function getTranslation(translation) {
 }
 
 function getCard(phrase) {
-  return `"${getAudio(phrase.audio)}","${phrase.spelling}"${getTranslation(phrase.translation)}\n`;
+  return `"${phrase.spelling}","${getAudio(phrase.audio)}"${getTranslation(phrase.translation)}\n`;
 }
 
 function getCSV(phrases) {

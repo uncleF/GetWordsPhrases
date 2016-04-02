@@ -18,7 +18,7 @@ function getRaw(file) {
 
 function writeFile(data, dir, filename) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(`${dir}/${filename}`, data, function(error) {
+    fs.appendFile(`${dir}/${filename}`, data, function(error) {
       if (error) {
         reject(error);
       } else {

@@ -24,10 +24,10 @@ function getArticles(languageString) {
 
 function getArticleString(element, articles) {
   var gender = element.find('.ill-wlv__section-b__gender').text();
-  if (gender === 'masc') {
+  if (gender.indexOf('masc') > -1) {
     return articles.masculine;
   }
-  if (gender === 'fem') {
+  if (gender.indexOf('fem') > -1) {
     return articles.feminine;
   }
   return false;

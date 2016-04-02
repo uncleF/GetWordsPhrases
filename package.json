@@ -7,12 +7,13 @@
   "dependencies": {
     "cheerio": "^0.20.0",
     "commander": "^2.9.0",
+    "line-by-line": "^0.1.4",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {},
   "scripts": {
-    "demo": "node --harmony-rest-parameters app/getwph.js -s demo/demo.html -H"
+    "demo": "node --harmony-rest-parameters app/getwph.js -l demo/links.txt"
   },
   "bin": {
     "getwph": "app/getwph.js"

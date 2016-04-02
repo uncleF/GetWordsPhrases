@@ -8,9 +8,11 @@ var phrases = require('./phrases');
 var path = require('path');
 var url = require('url');
 var download = require('./download');
+var LineByLineReader = require('line-by-line');
 
 var filePath;
 var fileName;
+var sources = [];
 var dir;
 var html;
 var wordsMode;
@@ -41,7 +43,7 @@ function output(raw) {
 }
 
 function write(array) {
-  file.write(array, html, dir, fileName);
+  file.write(array, html, dir, 'output');
 }
 
 function done() {
@@ -52,15 +54,34 @@ function fail(error) {
   console.error(error.stack.split('\n'));
 }
 
-module.exports = (options) => {
-  var source = options.source;
-  wordsMode = options.words;
-  phrasesMode = options.phrases;
-  html = options.html;
+function singleSource(source) {
   resolveSource(source)
     .then(file.getRaw)
     .then(output)
     .then(write)
     .then(done)
     .catch(fail);
+}
+
+function iterateSources() {
+  sources.forEach(source => singleSource(source));
+}
+
+function multipleSources(list) {
+  let lineReader = new LineByLineReader(list);
+  lineReader.on('line', source => sources.push(source));
+  lineReader.on('end', iterateSources);
+}
+
+module.exports = (options) => {
+  var source = options.source;
+  var list = options.list;
+  wordsMode = options.words;
+  phrasesMode = options.phrases;
+  html = options.html;
+  if (list) {
+    multipleSources(list);
+  } else {
+    singleSource(source);
+  }
 };
