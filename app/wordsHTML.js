@@ -15,9 +15,9 @@ function getTranslationParagraph(translation) {
 function getCard(word) {
   return `<div class="item">
             <img src="${word.image}">
+            <p class="spelling"><span>${word.spelling}</span></p>
             <p class="image"><span>${word.image}</span></p>
             <p class="mp3"><span>${word.audio}</span></p>
-            <p class="spelling"><span>${word.spelling}</span></p>
             ${getArticleParagraph(word.article)}
             ${getTranslationParagraph(word.translation)}
           </div>`;

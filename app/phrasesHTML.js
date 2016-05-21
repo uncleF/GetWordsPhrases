@@ -10,8 +10,8 @@ function getTranslationParagraph(translation) {
 
 function getCard(phrase) {
   return `<div class="item">
-            <p class="mp3"><span>${phrase.audio}</span></p>
             <p class="spelling"><span>${phrase.spelling}</span></p>
+            <p class="mp3"><span>${phrase.audio}</span></p>
             ${getTranslationParagraph(phrase.translation)}
           </div>`;
 }
