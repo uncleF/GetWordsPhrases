@@ -12,9 +12,10 @@ var options = {
 };
 
 app
-  .version('0.0.1')
-  .option('-s, --source [path]', 'path or URL to the source HTML-file')
-  .option('-l, --list [path]', 'path to the txt-file containing paths or URLs to the source HTML-files')
+  .version('1.0.0')
+  .usage('-s <file> [options] | -l <file> [options]')
+  .option('-s, --source [path]', 'path or URL for the source HTML-file')
+  .option('-l, --list [path]', 'path to the text file containing paths or URLs for the sources')
   .option('-w, --words', 'pick out words')
   .option('-p, --phrases', 'pick out phrases')
   .option('-H, --html', 'output as a single HTML-file')
@@ -24,10 +25,12 @@ options = {
   source: app.source,
   list: app.list,
   words: app.words,
-  phrases: app.pharases,
+  phrases: app.phrases,
   html: app.html
 };
 
 if (options.source || options.list) {
   getDictionary(options);
+} else {
+  app.help();
 }

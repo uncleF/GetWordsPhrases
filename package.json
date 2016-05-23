@@ -1,6 +1,6 @@
 {
   "name": "getwph",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Get Words & Phrases",
   "main": "app/app.js",
   "private": true,
@@ -20,9 +20,6 @@
   },
   "author": "unclef.npm@gmail.com",
   "license": "ISC",
-  "directories": {
-    "doc": "docs"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uncleF/GetWordsPhrases.git"
