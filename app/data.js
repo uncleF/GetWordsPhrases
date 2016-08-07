@@ -43,7 +43,7 @@ function output(raw) {
 }
 
 function write(array) {
-  file.write(array, html, dir, fileName);
+  return file.write(array, html, dir, fileName);
 }
 
 function done() {

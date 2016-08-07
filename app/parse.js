@@ -34,7 +34,7 @@ function getArticleString(element, articles) {
 }
 
 function getLanguageString(object) {
-  return object.find('.logoLnk img').attr('src');
+  return object.find('title').text().toLowerCase();
 }
 
 function getPart(element) {

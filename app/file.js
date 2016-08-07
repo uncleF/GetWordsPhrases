@@ -22,6 +22,7 @@ function writeFile(data, dir, filename) {
       if (error) {
         reject(error);
       } else {
+        console.log(`${filename} - Done`);
         resolve();
       }
     });
@@ -33,14 +34,14 @@ function writeCSV(data, dir, filename) {
   for (let key in data) {
     promises.push(writeFile(data[key], dir, `${filename}-${key}.csv`));
   }
-  return promises;
+  return Promise.all(promises);
 }
 
 function write(data, html, dir, filename) {
   if (html) {
-    writeFile(data, dir, `${filename}-output.html`);
+    return writeFile(data, dir, `${filename}-output.html`);
   } else {
-    writeCSV(data, dir, filename);
+    return writeCSV(data, dir, filename);
   }
 }
 

@@ -13,11 +13,11 @@ function getAudio(element) {
 }
 
 function getPhrase(element) {
-  return parse.getPhrase(element).replace(/\s{2,}|\s+$/g, '');
+  return parse.getPhrase(element).replace(/\s+$/g, '').replace(/\s{2,}/g, ' ');
 }
 
 function getTranslation(element, languageString) {
-  return parse.getPhraseTranslation(element, languageString).replace(/\s{2,}|\s+$/g, '');
+  return parse.getPhraseTranslation(element, languageString).replace(/\s+$/g, '').replace(/\s{2,}/g, ' ');
 }
 
 function getCard(element, languageString) {

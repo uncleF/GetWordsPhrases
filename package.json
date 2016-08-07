@@ -1,6 +1,6 @@
 {
   "name": "getwph",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "description": "Get Words & Phrases",
   "main": "app/app.js",
   "private": true,
@@ -9,7 +9,8 @@
     "commander": "^2.9.0",
     "line-by-line": "^0.1.4",
     "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "uniq": "^1.0.1"
   },
   "devDependencies": {},
   "scripts": {

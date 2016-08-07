@@ -17,8 +17,12 @@ function getArticle(article) {
   return article ? `,"${article}"` : '';
 }
 
+function getTranslation(translation) {
+  return translation ? `,"${translation}"` : '';
+}
+
 function getCard(word) {
-  return `"${word.spelling}","${getImage(word.image)}","${getAudio(word.audio)}"${getArticle(word.article)}\n`;
+  return `"${word.spelling}","${getImage(word.image)}","${getAudio(word.audio)}"${getArticle(word.article)}${getTranslation(word.translation)}\n`;
 }
 
 function getCSV(words) {

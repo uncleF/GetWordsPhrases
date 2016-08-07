@@ -55,7 +55,7 @@ function getCard(element, part, languageString, articles) {
 
 module.exports = (raw, html, dir) => {
   var $ = cheerio.load(raw);
-  var object = $('body');
+  var object = $('html');
   var languageString = parse.getLanguageString(object);
   var articles = parse.getArticles(languageString);
   var list = [];

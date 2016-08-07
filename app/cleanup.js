@@ -2,37 +2,15 @@
 
 'use strict';
 
-function sortArray(array) {
-  return array.sort(function(item, nextItem) {
-    if (item.spelling > nextItem.spelling) {
-      return 1;
-    }
-    if (item.spelling < nextItem.spelling) {
-      return -1;
-    }
-    return 0;
-  });
-}
+var uniq = require('uniq');
 
-function removeDuplicates(array) {
-  for (let index = 0, length = (array.length - 1); index < length; index += 1) {
-    if (array[index].spelling === array[index + 1].spelling) {
-      array.splice((index + 1), 1);
-      length -= 1;
-    }
-  }
-  return array;
-}
-
-function cleanArray(array) {
-  array = sortArray(array);
-  array = removeDuplicates(array);
-  return array;
+function compare(first, second) {
+  return first.spelling === second.spelling ? 0 : 1;
 }
 
 module.exports = (array) => {
-  var result = array;
+  var result = uniq(array, compare);
   return new Promise(resolve => {
-    resolve(cleanArray(result));
+    resolve(result);
   });
 };
