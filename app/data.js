@@ -2,16 +2,17 @@
 
 'use strict';
 
+var path = require('path');
+var url = require('url');
+var LineByLineReader = require('line-by-line');
+var mkdirp = require('mkdirp');
+let chalk = require('chalk');
 var file = require('./file');
 var words = require('./words');
 var phrases = require('./phrases');
-var path = require('path');
-var url = require('url');
 var download = require('./download');
-var LineByLineReader = require('line-by-line');
 
 var filePath;
-var fileName;
 var sources = [];
 var dir;
 var html;
@@ -23,12 +24,12 @@ function resolveSource(source) {
     if (url.parse(source).host) {
       filePath = `${path.basename(url.parse(source).pathname)}.html`;
       dir = '.';
-      fileName = path.basename(filePath, '.html');
-      resolve(download.file(source, dir));
+      var sources = `${dir}/sources`;
+      mkdirp(sources);
+      resolve(download.file(source, sources));
     } else {
       filePath = source;
       dir = path.dirname(filePath);
-      fileName = path.basename(filePath, '.html');
       resolve(filePath);
     }
   });
@@ -43,15 +44,18 @@ function output(raw) {
 }
 
 function write(array) {
-  return file.write(array, html, dir, fileName);
+  return file.write(array, html, dir);
 }
 
-function done() {
-  console.log('Done');
+function done(source) {
+  console.log(`${chalk.green('✓')} - ${source}`);
 }
 
 function fail(error) {
-  console.error(error.stack.split('\n'));
+  console.error(chalk.red(`✗ ${error}`));
+  if (error.stack) {
+    console.error(error.stack.split('\n'));
+  }
 }
 
 function singleSource(source) {
@@ -59,7 +63,7 @@ function singleSource(source) {
     .then(file.getRaw)
     .then(output)
     .then(write)
-    .then(done)
+    .then(_ => done(source))
     .catch(fail);
 }
 

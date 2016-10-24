@@ -22,26 +22,25 @@ function writeFile(data, dir, filename) {
       if (error) {
         reject(error);
       } else {
-        console.log(`${filename} - Done`);
         resolve();
       }
     });
   });
 }
 
-function writeCSV(data, dir, filename) {
+function writeCSV(data, dir) {
   var promises = [];
   for (let key in data) {
-    promises.push(writeFile(data[key], dir, `${filename}-${key}.csv`));
+    promises.push(writeFile(data[key], dir, `${key}.csv`));
   }
   return Promise.all(promises);
 }
 
-function write(data, html, dir, filename) {
+function write(data, html, dir) {
   if (html) {
-    return writeFile(data, dir, `${filename}-output.html`);
+    return writeFile(data, dir, `html-output.html`);
   } else {
-    return writeCSV(data, dir, filename);
+    return writeCSV(data, dir);
   }
 }
 
