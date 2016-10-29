@@ -1,4 +1,4 @@
-#! /usr/bin/env node --harmony-rest-parameters
+#! /usr/bin/env node
 
 /* jslint node:true */
 
