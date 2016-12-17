@@ -14,7 +14,7 @@ function getAudio(audio) {
 }
 
 function getArticle(article) {
-  return article ? `,"${article}"` : '""';
+  return article ? `,"${article}"` : ',""';
 }
 
 function getTranslation(translation) {
