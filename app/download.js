@@ -23,7 +23,7 @@ function dowloadFile(resource, dir) {
         file.write(data);
       }).on('end', function() {
         file.end();
-        resocdlve(filePath);
+        resolve(filePath);
       });
     }).on('error', reject);
   });
