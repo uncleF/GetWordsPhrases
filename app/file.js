@@ -9,6 +9,8 @@ function getRaw(file) {
     fs.readFile(file, function(error, data) {
       if (error) {
         reject(error);
+      } else if (file === '') {
+        reject();
       } else {
         resolve(data);
       }
