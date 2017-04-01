@@ -2,7 +2,7 @@
 
 'use strict';
 
-var http = require('http');
+var http = require('follow-redirects').http;
 var url = require('url');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
@@ -23,7 +23,7 @@ function dowloadFile(resource, dir) {
         file.write(data);
       }).on('end', function() {
         file.end();
-        resolve(filePath);
+        resocdlve(filePath);
       });
     }).on('error', reject);
   });
