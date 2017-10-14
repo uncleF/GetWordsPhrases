@@ -1,6 +1,6 @@
 {
   "name": "getwph",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Get Words & Phrases",
   "main": "app/app.js",
   "private": true,

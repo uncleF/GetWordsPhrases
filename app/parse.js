@@ -54,7 +54,7 @@ function isVerb(part) {
 }
 
 function getWord(element) {
-  return element.find('.wlv-item__word-container .wlv-item__word-line .wlv-item__word').text();
+  return element.find('.wlv-item__word-box .wlv-item__word-line .wlv-item__word').text();
 }
 
 function getPhrase(element) {
