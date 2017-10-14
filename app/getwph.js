@@ -8,7 +8,7 @@ var getDictionary = require('./data');
 var app = require('commander');
 
 app
-  .version('1.5.4')
+  .version('1.5.5')
   .usage('-s <file> [options] | -l <file> [options]')
   .option('-s, --source [path]', 'path or URL for the source HTML-file')
   .option('-l, --list [path]', 'path to the text file containing paths or URLs for the sources')
