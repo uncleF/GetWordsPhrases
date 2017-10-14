@@ -16,6 +16,7 @@ var filePath;
 var sources = [];
 var dir;
 var html;
+var allMode;
 var wordsMode;
 var phrasesMode;
 
@@ -36,7 +37,14 @@ function resolveSource(source) {
 }
 
 function output(raw) {
-  if (phrasesMode) {
+  if (allMode) {
+    return Promise.all([
+      words(raw, html, dir),
+      phrases(raw, html, dir)
+    ]).then((results) => {
+      return Object.assign({}, results[0], results[1]);
+    });
+  } else if (phrasesMode) {
     return phrases(raw, html, dir);
   } else {
     return words(raw, html, dir);
@@ -80,6 +88,7 @@ function multipleSources(list) {
 module.exports = (options) => {
   var source = options.source;
   var list = options.list;
+  allMode =  options.all;
   wordsMode = options.words;
   phrasesMode = options.phrases;
   html = options.html;

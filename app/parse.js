@@ -23,7 +23,7 @@ function getArticles(languageString) {
 }
 
 function getArticleString(element, articles) {
-  var gender = element.find('.ill-wlv__section-b__gender').text();
+  var gender = element.find('.wlv-item__word-container .wlv-item__word-gender').text();
   if (gender.indexOf('masc') > -1) {
     return articles.masculine;
   }
@@ -38,7 +38,7 @@ function getLanguageString(object) {
 }
 
 function getPart(element) {
-  return element.find('.ill-wlv__block-c .ill-wlv__section-b__part-of-speech').text();
+  return element.find('.wlv-item__word-container .wlv-item__word-class').text();
 }
 
 function isNoun(part) {
@@ -54,35 +54,31 @@ function isVerb(part) {
 }
 
 function getWord(element) {
-  var wordElement = element.find('.ill-wlv__block-c .ill-wlv__section-b__target .ill-direction-wrapper');
-  if (wordElement.length <= 0) {
-    wordElement = element.find('.ill-wlv__block-c .ill-wlv__section-b__target').find('*').remove().end();
-  }
-  return wordElement.text();
+  return element.find('.wlv-item__word-container .wlv-item__word-line .wlv-item__word').text();
 }
 
 function getPhrase(element) {
-  return element.find('.ill-wlv__section-b__target').text();
+  return element.find('.wlv-item__word-container .wlv-item__word-line .wlv-item__word').text();
 }
 
 function getWordTranslation(element, languageString) {
-  return languageString.indexOf('English') <= -1 ? element.find('.ill-wlv__block-c .ill-wlv__section-b__english').text() : false;
+  return languageString.indexOf('English') <= -1 ? element.find('.wlv-item__english-container .wlv-item__english').text() : false;
 }
 
 function getPhraseTranslation(element, languageString) {
-  return languageString.indexOf('English') <= -1 ? element.find('.ill-wlv__section-b__english.ill-oita').text() : false;
+  return languageString.indexOf('English') <= -1 ? element.find('.wlv-item__english-container .wlv-item__english').text() : false;
 }
 
 function getImageSrc(element) {
-  return element.find('.ill-wlv__section-a__image').attr('data-original');
+  return element.find('.wlv-item__image').attr('src');
 }
 
 function getDoubleImageURL(element) {
-  return element.find('.ill-wlv__section-a__image').attr('data-double');
+  return element.find('.wlv-item__image').attr('srcset').replace(' 2x', '');
 }
 
 function getAudioURL(element) {
-  return element.find('.ill-onebuttonplayer').attr('data-url');
+  return element.find('.wlv-item__word-container .wlv-item__audio-box audio').attr('src');
 }
 
 exports.getArticles = getArticles;

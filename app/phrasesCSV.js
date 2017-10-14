@@ -20,16 +20,12 @@ function getCard(phrase) {
 function getCSV(phrases) {
   var list = '';
   phrases.forEach(phrase => list += getCard(phrase));
-  return {
-    'phrases': list
-  };
+  return list !== '' ? {'phrases': list} : {};
 }
 
 module.exports = (phrases, dir) => {
   var downloadKeys = 'audio';
   return Promise
     .all(download.media(phrases, dir, downloadKeys))
-    .then(_ => {
-      return getCSV(phrases);
-    });
+    .then(_ => return getCSV(phrases));
 };

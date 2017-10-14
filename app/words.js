@@ -60,7 +60,7 @@ module.exports = (raw, html, dir) => {
   var articles = parse.getArticles(languageString);
   var list = [];
   var renderOutput = html ? wordsHTML : wordsCSV;
-  object.find('.ill-wlv__section-d').each(function() {
+  object.find('.wlv-item__box').each(function() {
     var element = $(this);
     var part = parse.getPart(element);
     var item = getCard(element, part, languageString, articles);

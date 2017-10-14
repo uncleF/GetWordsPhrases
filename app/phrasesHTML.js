@@ -19,7 +19,7 @@ function getCard(phrase) {
 function getList(phrases) {
   var list = '';
   phrases.forEach(phrase => list += getCard(phrase));
-  return list;
+  return list !== '' ? `<div id="results-phrases" class="results results-phrases">${list}</div>` : '';
 }
 
 function getHTML(resources) {
@@ -27,7 +27,7 @@ function getHTML(resources) {
             <style>${resources[0]}</style>
           </html>
           <body>
-            <div id="results-phrases" class="results results-phrases">${getList(resources[2])}</div>
+            ${getList(resources[2])}
             <script>${resources[1]}</script>
           </body>`;
 }

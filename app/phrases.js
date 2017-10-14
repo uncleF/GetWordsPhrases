@@ -35,7 +35,7 @@ module.exports = (raw, html, dir) => {
   var languageString = parse.getLanguageString(object);
   var list = [];
   var renderOutput = html ? pharsesHTML : pharsesCSV;
-  object.find('.ill-wlv__block-d, .ill-wlv__block-i').each(function() {
+  object.find('.wlv-item__sample').each(function() {
     var element = $(this);
     var item = getCard(element, languageString);
     if (item.audio && item.spelling) {
