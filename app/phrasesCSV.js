@@ -27,5 +27,5 @@ module.exports = (phrases, dir) => {
   var downloadKeys = 'audio';
   return Promise
     .all(download.media(phrases, dir, downloadKeys))
-    .then(_ => return getCSV(phrases));
+    .then(_ => getCSV(phrases));
 };
