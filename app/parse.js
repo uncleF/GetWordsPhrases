@@ -38,7 +38,7 @@ function getLanguageString(object) {
 }
 
 function getPart(element) {
-  return element.find('.wlv-item__word-container .wlv-item__word-class').text();
+  return element.find('.wlv-item__word-box .wlv-item__word-class').text();
 }
 
 function isNoun(part) {
@@ -58,11 +58,11 @@ function getWord(element) {
 }
 
 function getPhrase(element) {
-  return element.find('.wlv-item__word-container .wlv-item__word-line .wlv-item__word').text();
+  return element.find('.wlv-item__word-line .wlv-item__word').text();
 }
 
 function getWordTranslation(element, languageString) {
-  return languageString.indexOf('English') <= -1 ? element.find('.wlv-item__english-container .wlv-item__english').text() : false;
+  return languageString.indexOf('English') <= -1 ? element.find('.wlv-item__word-box .wlv-item__english-container .wlv-item__english').text() : false;
 }
 
 function getPhraseTranslation(element, languageString) {
@@ -78,7 +78,7 @@ function getDoubleImageURL(element) {
 }
 
 function getAudioURL(element) {
-  return element.find('.wlv-item__word-container .wlv-item__audio-box audio').attr('src');
+  return element.find('.wlv-item__audio-box audio').attr('src');
 }
 
 exports.getArticles = getArticles;
