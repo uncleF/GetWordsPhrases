@@ -8,9 +8,9 @@ var LineByLineReader = require('line-by-line');
 var mkdirp = require('mkdirp');
 let chalk = require('chalk');
 var file = require('./file');
-var words = require('./words');
-var phrases = require('./phrases');
-var download = require('./download');
+var words = require('./wordsJSON');
+var phrases = require('./phrasesJSON');
+var download = require('./downloadPuppeteer');
 
 var filePath;
 var sources = [];
