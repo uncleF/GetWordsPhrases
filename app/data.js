@@ -8,8 +8,8 @@ var LineByLineReader = require('line-by-line');
 var mkdirp = require('mkdirp');
 let chalk = require('chalk');
 var file = require('./file');
-var words = require('./wordsJSON');
-var phrases = require('./phrasesJSON');
+var words = require('./wordsPage');
+var phrases = require('./phrasesPage');
 var download = require('./downloadPuppeteer');
 
 var filePath;

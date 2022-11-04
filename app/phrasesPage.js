@@ -12,7 +12,7 @@ function checkPhrase(item) {
 }
 
 function checkExamples(item) {
-  return item.samples;
+  return item.hasClass("wlv-item__sample");
 }
 
 function getCard(item) {
@@ -27,8 +27,7 @@ function getCard(item) {
 module.exports = (raw, html, dir) => {
   var $ = cheerio.load(raw);
   var object = $('html');
-  var page = object.find('.wlv-items');
-  var items = page.children().toArray();
+  var items = object.find(".wlv-item__word-box, .wlv-item__sample").toArray();
   var list = [];
   var renderOutput = html ? pharsesHTML : pharsesCSV;
   var list = items.reduce(function(result, item) {

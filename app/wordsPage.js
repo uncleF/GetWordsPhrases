@@ -9,11 +9,11 @@ var cheerio = require('cheerio');
 var cleanup = require('./cleanup');
 
 function checkWord(item) {
-  return item.children().find('.wlv-item__word-class');
+  return item.children().find('.wlv-item__word-class').length > 0;
 }
 
 function getList(item) {
-  const part = item.children().find('.wlv-item__word-class').text();
+  const part = item.children().find('.wlv-item__word-box .wlv-item__word-class').text();
   if (part === '(n)') {
     return 'nouns';
   }
@@ -35,11 +35,11 @@ function getArticle(item, articles) {
 function getCard(item, languageString, articles) {
   return {
     list: getList(item),
-    image: item.children().find('.wlv-item__image-box img').attr('src'),
-    audio: item.children().find('.wlv-item__audio-box audio').attr('src'),
-    spelling: item.children().find('.wlv-item__word').text(),
+    image: item.children().find(".wlv-item__image-box img").attr("src"),
+    audio: item.children().find(".wlv-item__word-box .wlv-item__audio-box audio").attr("src"),
+    spelling: item.children().find(".wlv-item__word-box .wlv-item__word").text(),
     article: getArticle(item, articles),
-    translation: item.children().find('.wlv-item__english').text(),
+    translation: item.children().find(".wlv-item__word-box .wlv-item__english").text(),
   };
 }
 
