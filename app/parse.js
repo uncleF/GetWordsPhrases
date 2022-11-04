@@ -3,11 +3,11 @@
 'use strict';
 
 const LANGUAGES = {
-  french: {
+  fr: {
     masculine: 'un',
     feminine: 'une'
   },
-  portuguese: {
+  pt: {
     masculine: 'um',
     feminine: 'uma'
   }

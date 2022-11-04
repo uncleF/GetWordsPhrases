@@ -9,21 +9,21 @@ var cheerio = require('cheerio');
 var cleanup = require('./cleanup');
 
 function checkWord(item) {
-  return item.class !== 'sentence'
+  return item.children().find('.wlv-item__word-class');
 }
 
 function getList(item) {
-  const { class: part } = item;
-  if (part === 'noun') {
-    return 'nouns'
+  const part = item.children().find('.wlv-item__word-class').text();
+  if (part === '(n)') {
+    return 'nouns';
   }
-  if (part === 'adjective') {
-    return 'adjectives'
+  if (part === '(adj)') {
+    return 'adjectives';
   }
-  if (part === 'verb') {
-    return 'verbs'
+  if (part === '(v)') {
+    return 'verbs';
   }
-  return 'rest'
+  return 'rest';
 }
 
 function getArticle(item, articles) {
@@ -35,23 +35,24 @@ function getArticle(item, articles) {
 function getCard(item, languageString, articles) {
   return {
     list: getList(item),
-    image: item.image,
-    audio: item.audio,
-    spelling: item.target,
+    image: item.children().find('.wlv-item__image-box img').attr('src'),
+    audio: item.children().find('.wlv-item__audio-box audio').attr('src'),
+    spelling: item.children().find('.wlv-item__word').text(),
     article: getArticle(item, articles),
-    translation: item.english,
+    translation: item.children().find('.wlv-item__english').text(),
   };
 }
 
 module.exports = (raw, html, dir) => {
   var $ = cheerio.load(raw);
   var object = $('html');
-  var page = object.find('#vocab_page');
-  var languageString = page.data('language').toLowerCase();
-  var items = page.data('wordlist').items;
+  var page = object.find('.wlv-items');
+  var languageString = page.find('.wlv-item__word').attr('lang').toLowerCase();
+  var items = page.children().toArray();
   var articles = parse.getArticles(languageString);
   var renderOutput = html ? wordsHTML : wordsCSV;
   var list = items.reduce(function(result, item) {
+    item = $(item);
     if (checkWord(item)) {
       var card = getCard(item, languageString, articles);
       if (card.image && card.audio && card.spelling) {

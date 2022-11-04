@@ -8,7 +8,7 @@ var cheerio = require('cheerio');
 var cleanup = require('./cleanup');
 
 function checkPhrase(item) {
-  return !item.class || item.class === 'sentence'
+  return item.children().find('.wlv-item__word-class').length <= 0;
 }
 
 function checkExamples(item) {
@@ -18,20 +18,21 @@ function checkExamples(item) {
 function getCard(item) {
   return {
     list: 'phrases',
-    audio: item.audio,
-    spelling: item.target,
-    translation: item.english
+    audio: item.children().find('.wlv-item__audio-box audio').attr('src'),
+    spelling: item.children().find('.wlv-item__word').text(),
+    translation: item.children().find('.wlv-item__english').text()
   };
 }
 
 module.exports = (raw, html, dir) => {
   var $ = cheerio.load(raw);
   var object = $('html');
-  var page = object.find('#vocab_page');
-  var items = page.data('wordlist').items;
+  var page = object.find('.wlv-items');
+  var items = page.children().toArray();
   var list = [];
   var renderOutput = html ? pharsesHTML : pharsesCSV;
   var list = items.reduce(function(result, item) {
+    item = $(item);
     if (checkPhrase(item)) {
       var card = getCard(item);
       if (card.audio && card.spelling) {
