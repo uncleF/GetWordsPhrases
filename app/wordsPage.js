@@ -35,11 +35,11 @@ function getArticle(item, articles) {
 function getCard(item, languageString, articles) {
   return {
     list: getList(item),
-    image: item.children().find(".wlv-item__image-box img").attr("src"),
-    audio: item.children().find(".wlv-item__word-box .wlv-item__audio-box audio").attr("src"),
-    spelling: item.children().find(".wlv-item__word-box .wlv-item__word").text(),
+    image: item.children().find('.wlv-item__image-box img').attr('srcset').replace(' 2x', ''),
+    audio: item.children().find('.wlv-item__word-box .wlv-item__audio-box audio').attr('src'),
+    spelling: item.children().find('.wlv-item__word-box .wlv-item__word').text(),
     article: getArticle(item, articles),
-    translation: item.children().find(".wlv-item__word-box .wlv-item__english").text(),
+    translation: item.children().find('.wlv-item__word-box .wlv-item__english').text(),
   };
 }
 
